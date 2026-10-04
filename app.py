@@ -71,11 +71,10 @@ st.markdown("""
     }
 
     /* Hero section */
-.hero {
-    padding: 2.5rem 1rem 2rem 1rem;
-    text-align: center;
-    background: transparent;
-};
+    .hero {
+        padding: 2.5rem 1rem 2rem 1rem;
+        text-align: center;
+        background: transparent;
     }
 
     .hero-badge {
@@ -185,6 +184,17 @@ client = genai.Client(api_key=API_KEY)
 
 
 # ============================================================
+# SESSION STATE
+# ============================================================
+
+if "itinerary" not in st.session_state:
+    st.session_state.itinerary = ""
+
+if "trip_destination" not in st.session_state:
+    st.session_state.trip_destination = ""
+
+
+# ============================================================
 # HERO
 # ============================================================
 
@@ -204,11 +214,12 @@ st.html("""
 </div>
 """)
 
+
 # ============================================================
 # FEATURES
 # ============================================================
 
-feature_1, feature_2, feature_3 = st.columns(3)
+feature_1, feature_2, feature_3, feature_4 = st.columns(4)
 
 with feature_1:
     st.markdown("""
@@ -235,10 +246,21 @@ with feature_2:
 with feature_3:
     st.markdown("""
     <div class="feature-card">
-        <div class="feature-icon">🤖</div>
-        <div class="feature-title">AI Recommendations</div>
+        <div class="feature-icon">🏨</div>
+        <div class="feature-title">Stay & Transport</div>
         <div class="feature-text">
-            Discover ideas tailored to your interests.
+            Get accommodation and local transport ideas.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with feature_4:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🎒</div>
+        <div class="feature-title">Smart Packing</div>
+        <div class="feature-text">
+            Receive a useful packing checklist for your trip.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -331,6 +353,50 @@ with row3_col2:
         ]
     )
 
+
+# ============================================================
+# NEW FEATURES
+# ============================================================
+
+st.markdown("### 🧳 Trip Details")
+
+new_col1, new_col2 = st.columns(2)
+
+with new_col1:
+    accommodation = st.selectbox(
+        "🏨 Accommodation preference",
+        [
+            "No specific preference",
+            "Budget hostel / guesthouse",
+            "Mid-range hotel",
+            "Premium hotel / resort",
+            "Homestay / local stay"
+        ]
+    )
+
+with new_col2:
+    transport = st.selectbox(
+        "🚆 Local transport preference",
+        [
+            "No specific preference",
+            "Public transport",
+            "Taxi / cab",
+            "Rental vehicle",
+            "Walking + public transport",
+            "Mix of available options"
+        ]
+    )
+
+st.markdown(
+    """
+    <p style="color:#aebed0; font-size:0.9rem; margin-top:0.4rem;">
+        Route AI will use these preferences to personalize your stay,
+        transportation suggestions, and packing checklist.
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
 st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -375,12 +441,25 @@ Budget style: {budget}
 Travel style: {travel_style}
 Traveling with: {travelers}
 Interests: {selected_interests}
+Accommodation preference: {accommodation}
+Local transport preference: {transport}
+
+IMPORTANT:
+- Keep recommendations realistic and practical.
+- Do not pretend to know live prices, availability, or current conditions.
+- Do not claim that a hotel, restaurant, attraction, or transport service
+  is currently available unless the user has provided that information.
+- Give approximate guidance rather than fake exact prices.
+- Avoid overcrowding each day with too many activities.
+- Consider the selected budget, travel style, group type, interests,
+  accommodation preference, and transport preference.
 
 Create the response with these sections:
 
 # ✈️ Trip Overview
 
-Give a short overview of the journey.
+Give a short overview of the journey and explain why the plan fits
+the traveler's preferences.
 
 # 🗓️ Day-by-Day Itinerary
 
@@ -390,33 +469,81 @@ Morning:
 Afternoon:
 Evening:
 
-Keep the schedule realistic and avoid trying to visit too many
-places in one day.
+Keep the schedule realistic and group nearby activities together where possible.
 
-# 🍜 Local Experiences
+# 🏨 Accommodation Suggestions
 
-Suggest local foods, experiences, or cultural activities.
+Suggest suitable types of accommodation and useful areas or neighborhoods
+to consider.
+
+Explain why each type/area may fit the selected budget and travel style.
+
+Do not invent hotel availability or exact current prices.
+
+# 🚆 Transport Planner
+
+Explain practical ways to get around the destination.
+
+Include:
+- Getting around locally
+- Best option for the traveler's preferences
+- When walking, public transport, taxi, or rental may be useful
+- General transport tips
+
+Do not claim live schedules or current fares.
+
+# 🍜 Local Food & Experiences
+
+Suggest local foods, experiences, or cultural activities that match
+the traveler's interests.
 
 # 💰 Budget Guidance
 
-Give a practical approximate budget category and explain where
-the traveler is likely to spend money.
+Explain how the traveler can generally divide spending between:
 
-Do NOT pretend to know live prices.
+- Accommodation
+- Food
+- Local transport
+- Activities
+- Extra expenses
 
-# 🎒 Smart Travel Tips
+Use broad estimates or relative categories rather than pretending
+to know live prices.
 
-Give 5 useful destination-specific tips.
+# 🎒 Smart Packing List
+
+Create a practical packing checklist based on:
+
+- Destination
+- Trip duration
+- Travel style
+- Interests
+- Activities mentioned in the itinerary
+
+Group the list into useful categories such as:
+
+- Essentials
+- Clothing
+- Electronics
+- Personal items
+- Activity-specific items
+
+# 🛡️ Smart Travel Tips
+
+Give 5 useful destination-specific general travel tips.
 
 # ⭐ Hidden Gem Idea
 
 Suggest one less-obvious experience or place worth exploring.
 
+End with a short section called:
+
+# 🧭 Route AI Summary
+
+Summarize the trip in 4-6 concise bullet points.
+
 Keep the response clear, practical, and easy for a student traveler
 to understand.
-
-Do not claim real-time availability, current weather, or exact
-prices unless they are provided by the user.
 """
 
         with st.spinner(
@@ -426,30 +553,12 @@ prices unless they are provided by the user.
             try:
 
                 response = client.models.generate_content(
-                    model="gemini-3.8-flash",
+                    model="gemini-3.5-flash-lite",
                     contents=prompt
                 )
 
-                st.divider()
-
-                st.markdown(
-                    '<div class="section-title">'
-                    '🗺️ Your Personalized Journey'
-                    '</div>',
-                    unsafe_allow_html=True
-                )
-
-                st.markdown(
-                    '<div class="result-box">',
-                    unsafe_allow_html=True
-                )
-
-                st.markdown(response.text)
-
-                st.markdown(
-                    "</div>",
-                    unsafe_allow_html=True
-                )
+                st.session_state.itinerary = response.text
+                st.session_state.trip_destination = destination.strip()
 
             except Exception as error:
 
@@ -464,10 +573,70 @@ prices unless they are provided by the user.
                     "If it mentions quota or 429, you have hit a usage limit. "
                     "If it mentions 403, the API key/project has an access problem."
                 )
-                
+
                 st.caption(
                     f"Technical details: {error}"
                 )
+
+
+# ============================================================
+# DISPLAY SAVED RESULT
+# ============================================================
+
+if st.session_state.itinerary:
+
+    st.divider()
+
+    st.markdown(
+        '<div class="section-title">'
+        '🗺️ Your Personalized Journey'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="result-box">',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(st.session_state.itinerary)
+
+    st.markdown(
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+
+    # ========================================================
+    # DOWNLOAD ITINERARY
+    # ========================================================
+
+    st.markdown("### 💾 Save Your Journey")
+
+    filename_destination = (
+        st.session_state.trip_destination
+        .lower()
+        .replace(" ", "_")
+        .replace("/", "_")
+        .replace("\\", "_")
+    )
+
+    download_filename = (
+        f"route_ai_{filename_destination}_itinerary.txt"
+    )
+
+    st.download_button(
+        label="📥 Download Itinerary",
+        data=st.session_state.itinerary,
+        file_name=download_filename,
+        mime="text/plain",
+        use_container_width=True
+    )
+
+    st.caption(
+        "Save your personalized Route AI itinerary as a text file "
+        "for later reference."
+    )
 
 
 # ============================================================
