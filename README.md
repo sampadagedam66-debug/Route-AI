@@ -16,7 +16,7 @@ Users provide their travel preferences, and Route AI uses Generative AI to creat
 
 ---
 
-## ✨ Features
+##  Features
 
 * 🗺️ **Personalized Itineraries**
   Generate structured day-by-day travel plans based on user preferences.
@@ -48,15 +48,15 @@ Users provide their travel preferences, and Route AI uses Generative AI to creat
 
 | Technology              | Purpose                             |
 | ----------------------- | ----------------------------------- |
-| 🐍 Python               | Application development             |
-| 🎈 Streamlit            | Web application framework           |
-| 🤖 Google Generative AI | AI-powered travel planning          |
-| 🔐 python-dotenv        | Environment variable management     |
-| 📦 Git & GitHub         | Version control and project hosting |
+|  Python               | Application development             |
+|  Streamlit            | Web application framework           |
+|  Google Generative AI | AI-powered travel planning          |
+|  python-dotenv        | Environment variable management     |
+|  Git & GitHub         | Version control and project hosting |
 
 ---
 
-## 🔄 How It Works
+##  How It Works
 
 ```text
 User Input
@@ -76,7 +76,7 @@ Itinerary & Recommendations
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -190,7 +190,7 @@ The core AI-powered travel planning functionality is currently implemented and o
 
 ## 👩‍💻 Developer
 
-### Sampada Gedam
+### Sampada
 ---
 
 This project is developed for **educational and learning purposes**.
