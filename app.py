@@ -788,3 +788,8 @@ Current itinerary:
 # ============================================================
 # FOOTER
 # ===================================================
+st.markdown("""
+<div class="custom-footer">
+    Route AI · Built with Streamlit & Gemini
+</div>
+""", unsafe_allow_html=True)
