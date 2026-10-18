@@ -33,16 +33,15 @@ BUDGET_SPLIT = {
     "Premium": [50, 20, 10, 15, 5],
 }
 SPLIT_LABELS = [
-    "🏨 Stay",
-    "🍜 Food",
-    "🚆 Transport",
-    "🎟️ Activities",
-    "✨ Extras",
+    "Stay",
+    "Food",
+    "Transport",
+    "Activities",
+    "Extras",
 ]
 
 st.set_page_config(
     page_title="Route AI",
-    page_icon="✈️",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -140,10 +139,6 @@ CSS = """
     .feature-card:hover {
         transform: translateY(-4px);
         border-color: rgba(142,233,255,0.55);
-    }
-
-    .feature-icon {
-        font-size: 1.7rem;
     }
 
     .feature-title {
@@ -302,8 +297,8 @@ st.session_state.setdefault("trip_budget", "Moderate")
 
 st.markdown(
     '<div class="hero">'
-    '<div class="hero-badge">✦ AI-Powered Travel Planning</div>'
-    '<div class="hero-title">✈️ Route AI</div>'
+    '<div class="hero-badge">AI-Powered Travel Planning</div>'
+    '<div class="hero-title">Route AI</div>'
     '<div class="hero-subtitle">'
     'Your intelligent companion for planning meaningful journeys.'
     '</div>'
@@ -321,7 +316,6 @@ feature_1, feature_2, feature_3, feature_4 = st.columns(4)
 with feature_1:
     st.markdown("""
     <div class="feature-card">
-        <div class="feature-icon">🗺️</div>
         <div class="feature-title">Smart Itineraries</div>
         <div class="feature-text">
             Get a personalized day-by-day travel plan.
@@ -332,7 +326,6 @@ with feature_1:
 with feature_2:
     st.markdown("""
     <div class="feature-card">
-        <div class="feature-icon">💰</div>
         <div class="feature-title">Budget Aware</div>
         <div class="feature-text">
             Plan and see how your spending usually splits.
@@ -343,7 +336,6 @@ with feature_2:
 with feature_3:
     st.markdown("""
     <div class="feature-card">
-        <div class="feature-icon">🏨</div>
         <div class="feature-title">Stay & Transport</div>
         <div class="feature-text">
             Get accommodation and local transport ideas.
@@ -354,7 +346,6 @@ with feature_3:
 with feature_4:
     st.markdown("""
     <div class="feature-card">
-        <div class="feature-icon">✏️</div>
         <div class="feature-title">Refine Your Plan</div>
         <div class="feature-text">
             Ask for changes and your itinerary updates instantly.
@@ -371,7 +362,7 @@ st.write("")
 # ============================================================
 
 st.markdown(
-    '<div class="section-title">🌍 Design Your Journey</div>',
+    '<div class="section-title">Design Your Journey</div>',
     unsafe_allow_html=True
 )
 
@@ -381,13 +372,13 @@ with st.container(key="planner"):
 
     with row1_col1:
         destination = st.text_input(
-            "📍 Destination",
+            "Destination",
             placeholder="e.g. Goa, Manali, Paris..."
         )
 
     with row1_col2:
         duration = st.slider(
-            "🗓️ Trip duration",
+            "Trip duration",
             min_value=1,
             max_value=30,
             value=4
@@ -397,7 +388,7 @@ with st.container(key="planner"):
 
     with row2_col1:
         budget = st.selectbox(
-            "💰 Budget preference",
+            "Budget preference",
             [
                 "Budget-friendly",
                 "Moderate",
@@ -407,7 +398,7 @@ with st.container(key="planner"):
 
     with row2_col2:
         travel_style = st.selectbox(
-            "🎒 Travel style",
+            "Travel style",
             [
                 "Balanced",
                 "Adventure",
@@ -423,7 +414,7 @@ with st.container(key="planner"):
 
     with row3_col1:
         travelers = st.selectbox(
-            "👥 Traveling with",
+            "Traveling with",
             [
                 "Solo",
                 "Friends",
@@ -434,7 +425,7 @@ with st.container(key="planner"):
 
     with row3_col2:
         interests = st.multiselect(
-            "❤️ Your interests",
+            "Your interests",
             [
                 "Beaches",
                 "Mountains",
@@ -448,13 +439,13 @@ with st.container(key="planner"):
             ]
         )
 
-    st.markdown("### 🧳 Trip Details")
+    st.markdown("### Trip Details")
 
     new_col1, new_col2 = st.columns(2)
 
     with new_col1:
         accommodation = st.selectbox(
-            "🏨 Accommodation preference",
+            "Accommodation preference",
             [
                 "No specific preference",
                 "Budget hostel / guesthouse",
@@ -466,7 +457,7 @@ with st.container(key="planner"):
 
     with new_col2:
         transport = st.selectbox(
-            "🚆 Local transport preference",
+            "Local transport preference",
             [
                 "No specific preference",
                 "Public transport",
@@ -493,7 +484,7 @@ with st.container(key="planner"):
 # ============================================================
 
 generate = st.button(
-    "✨ Create My Journey",
+    "Create My Journey",
     use_container_width=True
 )
 
@@ -544,12 +535,12 @@ IMPORTANT:
 
 Create the response with these sections:
 
-# ✈️ Trip Overview
+# Trip Overview
 
 Give a short overview of the journey and explain why the plan fits
 the traveler's preferences.
 
-# 🗓️ Day-by-Day Itinerary
+# Day-by-Day Itinerary
 
 For every day provide:
 
@@ -559,7 +550,7 @@ Evening:
 
 Keep the schedule realistic and group nearby activities together where possible.
 
-# 🏨 Accommodation Suggestions
+# Accommodation Suggestions
 
 Suggest suitable types of accommodation and useful areas or neighborhoods
 to consider.
@@ -568,7 +559,7 @@ Explain why each type/area may fit the selected budget and travel style.
 
 Do not invent hotel availability or exact current prices.
 
-# 🚆 Transport Planner
+# Transport Planner
 
 Explain practical ways to get around the destination.
 
@@ -580,12 +571,12 @@ Include:
 
 Do not claim live schedules or current fares.
 
-# 🍜 Local Food & Experiences
+# Local Food & Experiences
 
 Suggest local foods, experiences, or cultural activities that match
 the traveler's interests.
 
-# 💰 Budget Guidance
+# Budget Guidance
 
 Explain how the traveler can generally divide spending between:
 
@@ -598,7 +589,7 @@ Explain how the traveler can generally divide spending between:
 Use broad estimates or relative categories rather than pretending
 to know live prices.
 
-# 🎒 Smart Packing List
+# Smart Packing List
 
 Create a practical packing checklist based on:
 
@@ -616,17 +607,17 @@ Group the list into useful categories such as:
 - Personal items
 - Activity-specific items
 
-# 🛡️ Smart Travel Tips
+# Smart Travel Tips
 
 Give 5 useful destination-specific general travel tips.
 
-# ⭐ Hidden Gem Idea
+# Hidden Gem Idea
 
 Suggest one less-obvious experience or place worth exploring.
 
 End with a short section called:
 
-# 🧭 Route AI Summary
+# Route AI Summary
 
 Summarize the trip in 4-6 concise bullet points.
 
@@ -635,7 +626,7 @@ to understand.
 """
 
         with st.spinner(
-            "Route AI is designing your journey... ✨"
+            "Route AI is designing your journey..."
         ):
 
             try:
@@ -665,7 +656,7 @@ if st.session_state.itinerary:
 
     st.markdown(
         '<div class="section-title">'
-        '🗺️ Your Personalized Journey'
+        'Your Personalized Journey'
         '</div>',
         unsafe_allow_html=True
     )
@@ -680,7 +671,7 @@ if st.session_state.itinerary:
 
     with st.container(key="budget"):
 
-        st.markdown("### 💰 Budget Split at a Glance")
+        st.markdown("### Budget Split at a Glance")
 
         shares = BUDGET_SPLIT[st.session_state.trip_budget]
 
@@ -705,7 +696,7 @@ if st.session_state.itinerary:
 
     with st.container(key="refine"):
 
-        st.markdown("### ✏️ Refine Your Journey")
+        st.markdown("### Refine Your Journey")
 
         tweak = st.text_input(
             "What would you like to change?",
@@ -713,7 +704,7 @@ if st.session_state.itinerary:
             key="tweak_input"
         )
 
-        if st.button("🔄 Update Itinerary", use_container_width=True):
+        if st.button("Update Itinerary", use_container_width=True):
 
             if not tweak.strip():
 
@@ -738,7 +729,7 @@ Current itinerary:
 {st.session_state.itinerary}
 """
 
-                with st.spinner("Route AI is updating your journey... ✨"):
+                with st.spinner("Route AI is updating your journey..."):
 
                     try:
 
@@ -753,10 +744,10 @@ Current itinerary:
 
 
     # ========================================================
-    # DOWNLOAD ITINERARY
+    # DOWNLOAD ITINERARY / START A NEW JOURNEY
     # ========================================================
 
-    st.markdown("### 💾 Save Your Journey")
+    st.markdown("### Save Your Journey")
 
     filename_destination = (
         st.session_state.trip_destination
@@ -770,13 +761,23 @@ Current itinerary:
         f"route_ai_{filename_destination}_itinerary.txt"
     )
 
-    st.download_button(
-        label="📥 Download Itinerary",
-        data=st.session_state.itinerary,
-        file_name=download_filename,
-        mime="text/plain",
-        use_container_width=True
-    )
+    action_col1, action_col2 = st.columns(2)
+
+    with action_col1:
+        st.download_button(
+            label="Download Itinerary",
+            data=st.session_state.itinerary,
+            file_name=download_filename,
+            mime="text/plain",
+            use_container_width=True
+        )
+
+    with action_col2:
+        # Clears the current plan so a fresh trip can be started
+        if st.button("Start a New Journey", use_container_width=True):
+            st.session_state.itinerary = ""
+            st.session_state.trip_destination = ""
+            st.rerun()
 
     st.caption(
         "Save your personalized Route AI itinerary as a text file "
@@ -786,12 +787,4 @@ Current itinerary:
 
 # ============================================================
 # FOOTER
-# ============================================================
-
-st.markdown("""
-<div class="custom-footer">
-    Built with Python • Streamlit • Google Gemini
-    <br>
-    Route AI — Plan smarter. Explore better. ✈️
-</div>
-""", unsafe_allow_html=True)
+# ===================================================
